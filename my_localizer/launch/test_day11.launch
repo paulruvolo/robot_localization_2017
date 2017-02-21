@@ -1,0 +1,13 @@
+<launch>
+  <!-- Map server -->
+  <arg name="map_file"/>
+  <arg name="scan_topic" default="stable_scan"/>
+  <arg name="n_particles" default="300"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- Localization -->
+  <node name="pf" pkg="my_localizer" type="pf_day11.py" output="screen">
+    <remap from="scan" to="$(arg scan_topic)"/> 
+    <rosparam command="load" file="$(find my_localizer)/params/pf_params.yaml"/>
+  </node>
+</launch>
